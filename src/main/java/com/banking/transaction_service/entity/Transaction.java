@@ -30,7 +30,7 @@ public class Transaction {
     @Column(nullable = false)
     private String senderAccountNumber;
     @Column(nullable = false)
-    private String recieverAccountNumber;
+    private String receiverAccountNumber;
     @Column(nullable = false, precision = 15, scale = 2)
     private BigDecimal amount;
     @Enumerated(EnumType.STRING)
