@@ -3,8 +3,6 @@ package com.banking.transaction_service.dto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import com.banking.transaction_service.entity.TransactionStatus;
 import com.banking.transaction_service.entity.TransactionType;
 import lombok.AllArgsConstructor;
@@ -31,3 +29,4 @@ public class TransactionResponse {
     private LocalDateTime completedAt;
 
 }
+
