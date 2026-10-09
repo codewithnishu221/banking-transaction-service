@@ -2,10 +2,10 @@ spring:
   application:
     name: transaction-service
   datasource:
-     url: jdbc:mysql://localhost:3303/transaction_db?createDatabaseIfNotExist=true
+     url: jdbc:mysql://localhost:3306/transaction_db?createDatabaseIfNotExist=true
      username: root
      password: root
-     driver-class-name: com.mysql.cj.jdbc.driver
+     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
@@ -28,14 +28,18 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
 
 server:
  port: 8082
 
 account:
- service:
-  url: http://localhost:8081
-
+  service:
+      url: http://localhost:8081
 management:
   endpoints:
     web:
