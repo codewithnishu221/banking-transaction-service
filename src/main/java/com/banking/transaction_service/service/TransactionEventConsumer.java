@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
@@ -29,12 +30,13 @@ public class TransactionEventConsumer {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
     private static final String TRANSACTION_OTP_GENERATED_TOPIC = "transaction.otp.generated";
-
+    private final TransactionService transactionService;
     /*
     * Consume verification.required from fraud detection service
     * Generate OTP and ask user to verify
     * @param payload
     */
+   @KafkaListener(topics = "verification.required")
     public void consumeVerificationRequired(@Payload  Map<String, Object> payload){
         try{
 
@@ -77,5 +79,16 @@ public class TransactionEventConsumer {
         }catch(Exception e){
             log.error("Error handling verification required: {}", e.getMessage());
         }
+    }
+
+
+    @KafkaListener (topics = "fraud.check.clean")
+    public void consumeFraudCheckCleanResult(@Payload Map<String, Object> payload){
+      try {
+        String transactionId = (String) payload.get("transactionId");
+        transactionService.processCleanresult(transactionId);
+      } catch (Exception e) {
+        log.error("Error processing fraud check result: {}", e.getMessage());
+      }
     }
 }
